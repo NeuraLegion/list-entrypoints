@@ -26,5 +26,5 @@ jobs:
       uses: ./release
       with:
         api_token: ${{ secrets.NEXPLOIT_TOKEN }}
-        name: GitHub run ${{ github.sha }}
-        project_id: ${{ secrets.PROJECT_ID }}
+        hostname: ${{ vars.HOSTNAME }}
+        project_id: ${{ vars.PROJECT_ID }}

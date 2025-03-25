@@ -14,20 +14,16 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install dependencies
       run: npm ci && npm install -g @vercel/ncc
-
     - name: Build release
       run: npm run build && npm run pack
-
     - name: Copy files to release
       run: |
         mkdir release
         cp README.md release/
-        cp -R list-entrypoints release/
-        mkdir release/list-entrypoints/dist
-        cp -R dist/entrypoints release/list-entrypoints/dist/
-
+        cp action.yml release/
+        cp -R dist/ release/dist/
     - name: List project entrypoints
-      uses: ./release/list-entrypoints
+      uses: ./release
       with:
         api_token: ${{ secrets.NEXPLOIT_TOKEN }}
         name: GitHub run ${{ github.sha }}

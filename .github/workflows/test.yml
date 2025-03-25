@@ -25,6 +25,6 @@ jobs:
     - name: List project entrypoints
       uses: ./release
       with:
-        api_token: ${{ secrets.NEXPLOIT_TOKEN }}
+        api_token: ${{ secrets.BRIGHTSEC_TOKEN }}
         hostname: ${{ vars.HOSTNAME }}
         project_id: ${{ vars.PROJECT_ID }}

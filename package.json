@@ -8,17 +8,10 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts",
-    "pack": "ncc build dist/entrypoints/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NeuraLegion/bright-github-actions.git"
+    "pack": "ncc build dist/index.js"
   },
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NeuraLegion/bright-github-actions/issues"
-  },
   "homepage": "https://github.com/NeuraLegion/bright-github-actions/tree/main/list-entrypoints#readme",
   "dependencies": {
     "@actions/core": "^1.11.1",

@@ -1,5 +1,8 @@
 name: 'List Bright project entrypoints'
 description: "List Bright project entrypoints"
+branding:
+  icon: 'list'
+  color: 'blue'
 inputs:
   api_token:
     description: 'Api Token. You can generate it in Organization section'

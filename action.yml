@@ -1,0 +1,31 @@
+name: 'List Bright project entrypoints'
+description: "List Bright project entrypoints"
+inputs:
+  api_token:
+    description: 'Api Token. You can generate it in Organization section'
+    required: true
+  hostname:
+    description: 'Hostname. Default is app.brightsec.com'
+    required: false
+  project_id:
+    description: 'Project ID'
+    required: true
+  limit:
+    description: 'Maximum number of entrypoints'
+    required: false
+    default: 100
+  connectivity:
+    description: 'One or more connectivity statuses (comma-separated). Available values: ok, unreachable, problem, skipped, unauthorized, unavailable'
+    required: false
+  status:
+    description: 'One or more security statuses (comma-separated). Available values: new, changed, tested, vulnerable'
+    required: false
+
+outputs:
+  projectId:
+    description: 'id of the project'
+  entrypoints:
+    description: 'list of entrypoints in JSON format'
+runs:
+  using: 'node20'
+  main: 'dist/entrypoints/index.js'

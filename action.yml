@@ -28,4 +28,4 @@ outputs:
     description: 'list of entrypoints in JSON format'
 runs:
   using: 'node20'
-  main: 'dist/entrypoints/index.js'
+  main: 'dist/index.js'

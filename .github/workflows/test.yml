@@ -1,0 +1,34 @@
+name: CI / Automated testing
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  release:
+    name: Build GitHub Action
+    runs-on: ubuntu-latest
+    container: node:20
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: npm ci && npm install -g @vercel/ncc
+
+    - name: Build release
+      run: npm run build && npm run pack
+
+    - name: Copy files to release
+      run: |
+        mkdir release
+        cp README.md release/
+        cp -R list-entrypoints release/
+        mkdir release/list-entrypoints/dist
+        cp -R dist/entrypoints release/list-entrypoints/dist/
+
+    - name: List project entrypoints
+      uses: ./release/list-entrypoints
+      with:
+        api_token: ${{ secrets.NEXPLOIT_TOKEN }}
+        name: GitHub run ${{ github.sha }}
+        project_id: ${{ secrets.PROJECT_ID }}

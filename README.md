@@ -66,7 +66,7 @@ A JSON-formatted list of entrypoints from the specified project.
 ```yaml
 steps:
   - name: List Project Entrypoints
-    uses: NeuraLegion/bright-github-actions/list-entrypoints@release
+    uses: NeuraLegion/list-entrypoints@v1
     with:
       api_token: ${{ secrets.BRIGHT_TOKEN }}
       project_id: ${{ secrets.PROJECT_ID }}

@@ -23,6 +23,10 @@ inputs:
   status:
     description: 'One or more security statuses (comma-separated). Available values: new, changed, tested, vulnerable'
     required: false
+  ids_only:
+    description: 'If set to true, returns only an array of entrypoint IDs instead of full objects'
+    required: false
+    default: 'false'
 
 outputs:
   projectId:

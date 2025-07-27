@@ -27571,6 +27571,7 @@ async function run() {
         const limit = (0, core_1.getInput)('limit');
         const connectivity = (0, core_1.getInput)('connectivity');
         const status = (0, core_1.getInput)('status');
+        const idsOnly = (0, core_1.getInput)('ids_only') === 'true';
         const baseUrl = hostname || 'https://app.brightsec.com';
         const client = new http_client_1.HttpClient('GitHub Actions', undefined, {
             headers: {
@@ -27583,26 +27584,7 @@ async function run() {
         let nextId;
         let nextCreatedAt;
         do {
-            const params = new URLSearchParams();
-            if (limit) {
-                params.append('limit', limit);
-            }
-            if (nextId) {
-                params.append('nextId', nextId);
-            }
-            if (nextCreatedAt) {
-                params.append('nextCreatedAt', nextCreatedAt);
-            }
-            if (connectivity) {
-                connectivity.split(',').map(value => value.trim()).forEach(value => {
-                    params.append('connectivity[]', value);
-                });
-            }
-            if (status) {
-                status.split(',').map(value => value.trim()).forEach(value => {
-                    params.append('status[]', value);
-                });
-            }
+            const params = buildUrlParams(limit, nextId, nextCreatedAt, connectivity, status);
             const response = await client.get(`${baseUrl}/api/v2/projects/${projectId}/entry-points${params.toString() ? `?${params.toString()}` : ''}`);
             const responseBody = await response.readBody();
             const data = JSON.parse(responseBody);
@@ -27616,7 +27598,7 @@ async function run() {
             nextId = data.nextId;
             nextCreatedAt = data.nextCreatedAt;
         } while (nextId && nextCreatedAt);
-        (0, core_1.setOutput)('entrypoints', JSON.stringify(entrypoints));
+        (0, core_1.setOutput)('entrypoints', JSON.stringify(idsOnly ? entrypoints.map(item => item.id) : entrypoints));
         (0, core_1.setOutput)('projectId', projectId);
     }
     catch (error) {
@@ -27627,6 +27609,29 @@ async function run() {
             (0, core_1.setFailed)('An unknown error occurred');
         }
     }
+}
+function buildUrlParams(limit, nextId, nextCreatedAt, connectivity, status) {
+    const params = new URLSearchParams();
+    if (limit) {
+        params.append('limit', limit);
+    }
+    if (nextId) {
+        params.append('nextId', nextId);
+    }
+    if (nextCreatedAt) {
+        params.append('nextCreatedAt', nextCreatedAt);
+    }
+    if (connectivity) {
+        connectivity.split(',').map(value => value.trim()).forEach(value => {
+            params.append('connectivity[]', value);
+        });
+    }
+    if (status) {
+        status.split(',').map(value => value.trim()).forEach(value => {
+            params.append('status[]', value);
+        });
+    }
+    return params;
 }
 void run();
 

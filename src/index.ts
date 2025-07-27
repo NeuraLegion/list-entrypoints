@@ -44,26 +44,7 @@ async function run(): Promise<void> {
     let nextCreatedAt: string | undefined;
 
     do {
-      const params = new URLSearchParams();
-      if (limit) {
-        params.append('limit', limit);
-      }
-      if (nextId) {
-        params.append('nextId', nextId);
-      }
-      if (nextCreatedAt) {
-        params.append('nextCreatedAt', nextCreatedAt);
-      }
-      if (connectivity) {
-        connectivity.split(',').map(value => value.trim()).forEach(value => {
-          params.append('connectivity[]', value);
-        });
-      }
-      if (status) {
-        status.split(',').map(value => value.trim()).forEach(value => {
-          params.append('status[]', value);
-        });
-      }
+      const params = buildUrlParams(limit, nextId, nextCreatedAt, connectivity, status);
 
       const response = await client.get(
         `${baseUrl}/api/v2/projects/${projectId}/entry-points${params.toString() ? `?${params.toString()}` : ''}`
@@ -93,6 +74,37 @@ async function run(): Promise<void> {
       setFailed('An unknown error occurred');
     }
   }
+}
+
+function buildUrlParams(
+  limit: string, 
+  nextId: string | undefined, 
+  nextCreatedAt: string | undefined, 
+  connectivity: string, 
+  status: string
+): URLSearchParams {
+  const params = new URLSearchParams();
+  if (limit) {
+    params.append('limit', limit);
+  }
+  if (nextId) {
+    params.append('nextId', nextId);
+  }
+  if (nextCreatedAt) {
+    params.append('nextCreatedAt', nextCreatedAt);
+  }
+  if (connectivity) {
+    connectivity.split(',').map(value => value.trim()).forEach(value => {
+      params.append('connectivity[]', value);
+    });
+  }
+  if (status) {
+    status.split(',').map(value => value.trim()).forEach(value => {
+      params.append('status[]', value);
+    });
+  }
+  
+  return params;
 }
 
 void run();

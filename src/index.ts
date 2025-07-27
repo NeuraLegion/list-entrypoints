@@ -21,6 +21,7 @@ async function run(): Promise<void> {
     const limit = getInput('limit');
     const connectivity = getInput('connectivity');
     const status = getInput('status');
+    const idsOnly = getInput('ids_only') === 'true';
 
     const baseUrl = hostname || 'https://app.brightsec.com';
     const client = new HttpClient('GitHub Actions', undefined, {
@@ -83,7 +84,7 @@ async function run(): Promise<void> {
       nextCreatedAt = data.nextCreatedAt;
     } while (nextId && nextCreatedAt);
 
-    setOutput('entrypoints', JSON.stringify(entrypoints));
+    setOutput('entrypoints', JSON.stringify(idsOnly ? entrypoints.map(item => item.id) : entrypoints));
     setOutput('projectId', projectId);
   } catch (error) {
     if (error instanceof Error) {

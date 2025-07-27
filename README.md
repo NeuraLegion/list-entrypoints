@@ -51,6 +51,10 @@ More information is available on Bright's:
 
 **Optional**. Maximum number of entrypoints to retrieve. Default is `100`.
 
+### `ids_only`
+
+**Optional**. If set to true, returns only an array of entrypoint IDs instead of full objects. Default is `false`.
+
 # Outputs
 
 ### `projectId`
